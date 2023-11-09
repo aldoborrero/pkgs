@@ -1,6 +1,6 @@
-# (nix) pkgs
+# mynixpkgs
 
-My custom repository of `(nix) pkgs` that I plan to either upstream to `nixpkgs` or keep here as they don't make sense to share.
+My custom repository of my `nixpkgs` that I plan to either upstream to `nixpkgs` or keep here as they don't make sense to share.
 
 It follows the regular conventions of `nixpkgs` (specially following the conventions defined in their [named based package directories](https://github.com/NixOS/nixpkgs/tree/master/pkgs/by-name)).
 
@@ -13,8 +13,8 @@ You can add my `pkgs` repository as a regular flake input:
 ```nix
 {
     inputs = {
-        pkgs = {
-            url = "github:aldoborrero/pkgs";
+        mynixpkgs = {
+            url = "github:aldoborrero/mypkgs";
             inputs.nixpkgs.follows = "nixpkgs";
         };
     };
@@ -28,7 +28,7 @@ And use it as a regular flake input to access it's packages by system or add the
 Thanks to `flake-compat` you can also use this repository without flakes! Make sure you import it with:
 
 ```console
-$ niv add aldoborrero/pkgs
+$ niv add aldoborrero/mypkgs
 ```
 
 And add the overlay to your `nixpkgs` import with `niv`:
@@ -38,14 +38,14 @@ And add the overlay to your `nixpkgs` import with `niv`:
   sources = import ./sources.nix;
 
   # overlays
-  pkgs = import sources.pkgs;
+  mynixpkgs = import sources.mynixpkgs;
 in
   import sources.nixpkgs {
     inherit system;
     config.allowUnfree = true;
     overlays =
       [
-        pkgs.overlays.default
+        mynixpkgs.overlays.default
       ];
   }
 ```
