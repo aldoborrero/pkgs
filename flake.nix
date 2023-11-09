@@ -68,6 +68,7 @@
         inputs.flake-root.flakeModule
         inputs.treefmt-nix.flakeModule
         localInputs.pkgs.default
+        localInputs.modules.default
       ];
 
       debug = true;
