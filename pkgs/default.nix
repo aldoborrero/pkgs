@@ -32,10 +32,12 @@
       systemctl-tui = callPackage ./by-name/sy/systemctl-tui {};
 
       # development / python-modules
+      ctransformers = python311Packages.callPackage ./development/python-modules/ctransformers {};
       llm-clip = python311Packages.callPackage ./development/python-modules/llm-clip {inherit llm;};
       llm-cluster = python311Packages.callPackage ./development/python-modules/llm-cluster {inherit llm;};
       llm-llama-cpp = python311Packages.callPackage ./development/python-modules/llm-llama-cpp {inherit llm;};
       llm-mlc = python311Packages.callPackage ./development/python-modules/llm-mlc {inherit llm;};
+      llm-mpt30b = python311Packages.callPackage ./development/python-modules/llm-mpt30b {inherit llm ctransformers;};
       llm-sentence-transformers = python311Packages.callPackage ./development/python-modules/llm-sentence-transformers {inherit llm;};
       pyemvue = callPackage ./development/python-modules/pyemvue {};
       openai = python311Packages.callPackage ./development/python-modules/openai {};
