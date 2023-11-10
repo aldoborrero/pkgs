@@ -32,6 +32,7 @@
       systemctl-tui = callPackage ./by-name/sy/systemctl-tui {};
 
       # development / python-modules
+      llm-clip = python311Packages.callPackage ./development/python-modules/llm-clip {inherit llm;};
       llm-cluster = python311Packages.callPackage ./development/python-modules/llm-cluster {inherit llm;};
       llm-sentence-transformers = python311Packages.callPackage ./development/python-modules/llm-sentence-transformers {inherit llm;};
       pyemvue = callPackage ./development/python-modules/pyemvue {};
