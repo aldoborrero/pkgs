@@ -8,7 +8,6 @@
   sentence-transformers,
   setuptools,
 }:
-
 buildPythonPackage rec {
   pname = "llm-clip";
   version = "0.1";
