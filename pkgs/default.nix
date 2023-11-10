@@ -34,6 +34,7 @@
       # development / python-modules
       llm-clip = python311Packages.callPackage ./development/python-modules/llm-clip {inherit llm;};
       llm-cluster = python311Packages.callPackage ./development/python-modules/llm-cluster {inherit llm;};
+      llm-mlc = python311Packages.callPackage ./development/python-modules/llm-mlc {inherit llm;};
       llm-sentence-transformers = python311Packages.callPackage ./development/python-modules/llm-sentence-transformers {inherit llm;};
       pyemvue = callPackage ./development/python-modules/pyemvue {};
       openai = python311Packages.callPackage ./development/python-modules/openai {};
