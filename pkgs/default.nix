@@ -34,6 +34,7 @@
       # development / python-modules
       ctransformers = python311Packages.callPackage ./development/python-modules/ctransformers {};
       essentials = python311Packages.callPackage ./development/python-modules/essentials {};
+      essentials-openapi = python311Packages.callPackage ./development/python-modules/essentials-openapi {inherit essentials;};
       llm-clip = python311Packages.callPackage ./development/python-modules/llm-clip {inherit llm;};
       llm-cluster = python311Packages.callPackage ./development/python-modules/llm-cluster {inherit llm;};
       llm-gpt4all = python311Packages.callPackage ./development/python-modules/llm-gpt4all {inherit llm;};
