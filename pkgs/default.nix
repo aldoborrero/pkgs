@@ -37,6 +37,7 @@
       essentials-openapi = python311Packages.callPackage ./development/python-modules/essentials-openapi {inherit essentials;};
       gpt4all = python311Packages.callPackage ./development/python-modules/gpt4all {};
       llm-clip = python311Packages.callPackage ./development/python-modules/llm-clip {inherit llm;};
+      llm-claude = python311Packages.callPackage ./development/python-modules/llm-claude {inherit llm;};
       llm-cluster = python311Packages.callPackage ./development/python-modules/llm-cluster {inherit llm;};
       llm-gpt4all = python311Packages.callPackage ./development/python-modules/llm-gpt4all {inherit llm;};
       llm-llama-cpp = python311Packages.callPackage ./development/python-modules/llm-llama-cpp {inherit llm;};
