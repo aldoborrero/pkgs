@@ -45,6 +45,7 @@
       llm-sentence-transformers = python311Packages.callPackage ./development/python-modules/llm-sentence-transformers {inherit llm;};
       mkdocs-plugins = callPackage ./development/python-modules/mkdocs-plugins {inherit essentials-openapi;};
       openai = python311Packages.callPackage ./development/python-modules/openai {};
+      pydanticv2 = python311Packages.callPackage ./development/python-modules/pydanticv2 {};
       pyemvue = callPackage ./development/python-modules/pyemvue {};
     };
 
