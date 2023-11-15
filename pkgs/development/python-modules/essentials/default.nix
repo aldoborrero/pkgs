@@ -24,7 +24,7 @@ python311Packages.buildPythonPackage rec {
     pythonImportsCheckHook
   ];
 
-  pythonImportsChek = [
+  pythonImportsCheck = [
     "pyemvue"
   ];
 

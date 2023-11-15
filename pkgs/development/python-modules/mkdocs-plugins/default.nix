@@ -40,7 +40,7 @@ python311Packages.buildPythonPackage rec {
     "test_contribs" # checks against it's own git repository
   ];
 
-  pythonImportsChek = [
+  pythonImportsCheck = [
     "neoteroi.mkdocs"
   ];
 
