@@ -25,7 +25,7 @@ python311Packages.buildPythonPackage rec {
   ];
 
   pythonImportsCheck = [
-    "pyemvue"
+    "essentials"
   ];
 
   meta = with lib; {
