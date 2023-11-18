@@ -82,6 +82,7 @@
         lib,
         config,
         system,
+        self',
         ...
       }: {
         # nixpkgs
@@ -145,7 +146,7 @@
           };
           settings.formatter = {
             deno.excludes = ["*.md"];
-            # mdformat.package = self'.packages.mdformat-with-plugins;
+            mdformat.command = lib.mkDefault self'.packages.mdformat-with-plugins;
           };
         };
 
