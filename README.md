@@ -28,7 +28,7 @@ And use it as a regular flake input to access it's packages as a regular flake i
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/23.11";
     mynixpkgs = {
-      url = "github:nix-community/ethereum.nix";
+      url = "github:aldoborrero/mynixpkgs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
