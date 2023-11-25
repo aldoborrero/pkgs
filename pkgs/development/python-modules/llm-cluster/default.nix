@@ -40,7 +40,9 @@ buildPythonPackage rec {
 
   # Fix tests by preventing them from writing to /homeless-shelter.
   preCheck = "export HOME=$(mktemp -d)";
-  LOKY_MAX_CPU_COUNT = "1"; # Avoid issue with querying lscpu for obtaining cores
+
+  # Avoid issues with querying lscpu for obtaining core information
+  LOKY_MAX_CPU_COUNT = "1";
 
   pythonImportsCheck = [
     "llm_cluster"
