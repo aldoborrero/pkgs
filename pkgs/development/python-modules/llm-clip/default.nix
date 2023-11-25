@@ -41,6 +41,11 @@ buildPythonPackage rec {
   # Tests will try to download files from huggingface
   doCheck = false;
 
+  # Avoid warnings with not having a writable folder when testing imports
+  preBuild = ''
+    export TRANSFORMERS_CACHE=$(mktemp -d)
+  '';
+
   pythonImportsCheck = [
     "llm_clip"
   ];
