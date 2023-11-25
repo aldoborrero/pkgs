@@ -21,7 +21,38 @@ You can add my `pkgs` repository as a regular flake input:
 }
 ```
 
-And use it as a regular flake input to access it's packages by system or add them to your `nixpkgs` as an overlay.
+And use it as a regular flake input to access it's packages as a regular flake input or add them to your `nixpkgs` as an overlay:
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/23.11";
+    mynixpkgs = {
+      url = "github:nix-community/ethereum.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = inputs @ { self, mynixpkgs, nixpkgs, ... }: let
+    pkgs = import inputs.nixpkgs {
+      inherit system;
+      overlays = [
+        # add packages via the default overlay
+        mynixpkgs.overlays.default
+      ];
+    };
+
+  in {
+    nixosConfigurations.my-system = nixpkgs.lib.nixosSystem {
+      inherit system pkgs;
+      modules = [
+        # optional: add nixos modules via the default nixosModule
+        mynixpkgs.nixosModules.default
+      ];
+    };
+  };
+}
+```
 
 ### Niv
 
