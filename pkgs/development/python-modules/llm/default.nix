@@ -7,7 +7,6 @@
   pytestCheckHook,
   python3,
   pythonOlder,
-  ruff,
   setuptools,
 }: let
   llm = buildPythonPackage rec {
@@ -24,35 +23,32 @@
       hash = "sha256-aCqdw2co/cXrBwVY/k/aSLl3C22nlH5LvU2yir1/NnQ=";
     };
 
+    patches = [
+      ./001-disable-install-uninstall-commands.patch
+    ];
+
     nativeBuildInputs = [
       setuptools
     ];
 
     propagatedBuildInputs = with python3.pkgs; [
       click-default-group
+      numpy
       openai
-      pip
       pluggy
       pydantic
       python-ulid
       pyyaml
+      setuptools # for pkg_resources
       sqlite-migrate
       sqlite-utils
-      setuptools # for pkg_resources
     ];
 
     nativeCheckInputs = with python3.pkgs; [
-      black
       cogapp
-      mypy
       numpy
       pytestCheckHook
       requests-mock
-      ruff
-      types-click
-      types-pyyaml
-      types-requests
-      types-setuptools
     ];
 
     doCheck = true;
