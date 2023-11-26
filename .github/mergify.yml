@@ -1,7 +1,7 @@
 queue_rules:
   - name: default
     conditions:
-      - "check-success=update=flake-lock"
+      - "check-success=nix-flake-check"
 
 defaults:
   actions:
