@@ -80,7 +80,7 @@ stdenv.mkDerivation rec {
     homepage = "https://www.jetbrains.com/fleet/";
     license = licenses.unfree;
     mainProgram = "Fleet";
-    platforms = platforms.x86_64;
+    platforms = ["x86_64-linux"];
     maintainers = with maintainers; [aldoborrero];
   };
 }
