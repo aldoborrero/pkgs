@@ -3,11 +3,12 @@
     self',
     pkgs,
     lib,
+    system,
     ...
-  }: {
-    packages = let
-      inherit (pkgs) callPackage python311Packages;
-    in rec {
+  }: let
+    inherit (pkgs) callPackage python311Packages;
+  in {
+    packages = lib.flakes.platformPkgs system rec {
       # by-name / ac
       actual-server = callPackage ./by-name/ac/actual-server {};
 
@@ -32,14 +33,16 @@
       systemctl-tui = callPackage ./by-name/sy/systemctl-tui {};
 
       # development / python-modules
+
+      # llm-claude = python311Packages.callPackage ./development/python-modules/llm-claude {inherit llm;};
+      # llm-gpt4all = python311Packages.callPackage ./development/python-modules/llm-gpt4all {inherit llm;};
+
       ctransformers = python311Packages.callPackage ./development/python-modules/ctransformers {};
       essentials = python311Packages.callPackage ./development/python-modules/essentials {};
       essentials-openapi = python311Packages.callPackage ./development/python-modules/essentials-openapi {inherit essentials;};
       gpt4all = python311Packages.callPackage ./development/python-modules/gpt4all {};
-      # llm-claude = python311Packages.callPackage ./development/python-modules/llm-claude {inherit llm;};
       llm-clip = python311Packages.callPackage ./development/python-modules/llm-clip {inherit llm;};
       llm-cluster = python311Packages.callPackage ./development/python-modules/llm-cluster {inherit llm;};
-      # llm-gpt4all = python311Packages.callPackage ./development/python-modules/llm-gpt4all {inherit llm;};
       llm-llama-cpp = python311Packages.callPackage ./development/python-modules/llm-llama-cpp {inherit llm;};
       llm-mlc = python311Packages.callPackage ./development/python-modules/llm-mlc {inherit llm;};
       llm-mpt30b = python311Packages.callPackage ./development/python-modules/llm-mpt30b {inherit llm ctransformers;};
