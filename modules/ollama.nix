@@ -40,14 +40,15 @@ in {
       description = "Ollama Server";
       after = ["network.target"];
       wantedBy = ["multi-user.target"];
-      StateDirectory = "ollama";
-      DynamicUser = true;
       serviceConfig = {
-        execStart = "${cfg.package}/bin/ollama serve";
+        ExecStart = "${cfg.package}/bin/ollama serve";
         Restart = "always";
+        DynamicUser = true;
+        StateDirectory = "ollama";
         Environment = [
           "OLLAMA_HOST=${cfg.host}:${cfg.port}"
           "OLLAMA_ORIGINS=${concatStringsSep "," cfg.origins}"
+          "HOME=/var/lib/ollama"
         ];
       };
     };

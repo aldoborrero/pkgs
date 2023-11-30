@@ -55,21 +55,21 @@ in {
       description = "Actual Server";
       after = ["network.target"];
       wantedBy = ["multi-user.target"];
-      StateDirectory = "actual-server";
-      DynamicUser = true;
       serviceConfig = {
         ExecStart = "${pkgs.actual-server}/bin/start-actual-server";
         Restart = "always";
-      };
-      environment = {
-        # Set environment variables from configuration options here
-        ACTUAL_HOSTNAME = cfg.hostname;
-        ACTUAL_PORT = toString cfg.port;
-        ACTUAL_USER_FILES = cfg.userFiles;
-        # For uploads, set the respective environment variables.
-        ACTUAL_UPLOAD_FILE_SYNC_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeSyncLimitMB or "");
-        ACTUAL_UPLOAD_SYNC_ENCRYPTED_FILE_SIZE_LIMIT_MB = toString (cfg.upload.syncEncryptedFileSizeLimitMB or "");
-        ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeLimitMB or "");
+        StateDirectory = "actual-server";
+        DynamicUser = true;
+        Environment = {
+          # Set environment variables from configuration options here
+          ACTUAL_HOSTNAME = cfg.hostname;
+          ACTUAL_PORT = toString cfg.port;
+          ACTUAL_USER_FILES = cfg.userFiles;
+          # For uploads, set the respective environment variables.
+          ACTUAL_UPLOAD_FILE_SYNC_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeSyncLimitMB or "");
+          ACTUAL_UPLOAD_SYNC_ENCRYPTED_FILE_SIZE_LIMIT_MB = toString (cfg.upload.syncEncryptedFileSizeLimitMB or "");
+          ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeLimitMB or "");
+        };
       };
     };
   };
