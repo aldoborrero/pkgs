@@ -18,6 +18,9 @@
       # by-name / je
       jetbrains-fleet = callPackage ./by-name/je/jetbrains-fleet {};
 
+      # by-name / li
+      linkwarden = callPackage ./by-name/li/linkwarden {};
+
       # by-name / ll
       llm = callPackage ./by-name/ll/llm {};
 
