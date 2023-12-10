@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ollama-webui"
+version = "0.1.0"
+authors = [
+    { name = "Your Name", email = "you@example.com" }
+]
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic",
+    "python-multipart",
+    "flask",
+    "flask-cors",
+    "python-socketio",
+    "python-jose",
+    "passlib[bcrypt]",
+    "uuid",
+    "requests",
+    "pymongo",
+    "bcrypt",
+    "PyJWT",
+    "pyjwt[crypto]"
+]
+
+[project.scripts]
+ollama-webui = "ollama_webui.run:run"
+

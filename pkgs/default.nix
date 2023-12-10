@@ -21,6 +21,9 @@
       # by-name / ll
       llm = callPackage ./by-name/ll/llm {};
 
+      # by-name / ol
+      ollama-webui = python311Packages.callPackage ./by-name/ol/ollama-webui {};
+
       # by-name / ot
       oterm = python311Packages.callPackage ./by-name/ot/oterm {};
 
