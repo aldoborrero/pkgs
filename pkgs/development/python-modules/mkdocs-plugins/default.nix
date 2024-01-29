@@ -6,14 +6,14 @@
 }:
 python311Packages.buildPythonPackage rec {
   pname = "mkdocs-plugins";
-  version = "1.0.2";
+  version = "1.0.4";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "Neoteroi";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-C/HOqti8s/+V9scbS/Ch0i4sSFvRMF/K5+b6qzgTFSc=";
+    hash = "sha256-UyTlgKWdBWckI9sBL4GRQtgNHYpHpZlWVOdmdQ+7lss=";
   };
 
   buildInputs = with python311Packages; [
