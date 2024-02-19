@@ -41,8 +41,6 @@
       # llm-gpt4all = python311Packages.callPackage ./development/python-modules/llm-gpt4all {inherit llm;};
 
       ctransformers = python311Packages.callPackage ./development/python-modules/ctransformers {};
-      essentials = python311Packages.callPackage ./development/python-modules/essentials {};
-      essentials-openapi = python311Packages.callPackage ./development/python-modules/essentials-openapi {inherit essentials;};
       gpt4all = python311Packages.callPackage ./development/python-modules/gpt4all {};
       llm-clip = python311Packages.callPackage ./development/python-modules/llm-clip {inherit llm;};
       llm-cluster = python311Packages.callPackage ./development/python-modules/llm-cluster {inherit llm;};
@@ -50,8 +48,6 @@
       llm-mlc = python311Packages.callPackage ./development/python-modules/llm-mlc {inherit llm;};
       llm-mpt30b = python311Packages.callPackage ./development/python-modules/llm-mpt30b {inherit llm ctransformers;};
       llm-sentence-transformers = python311Packages.callPackage ./development/python-modules/llm-sentence-transformers {inherit llm;};
-      mkdocs-git-authors-plugin = callPackage ./development/python-modules/mkdocs-git-authors-plugin {};
-      mkdocs-plugins = callPackage ./development/python-modules/mkdocs-plugins {inherit essentials-openapi;};
       mlc-llm = python311Packages.callPackage ./development/python-modules/mlc-llm {};
       openai = python311Packages.callPackage ./development/python-modules/openai {};
       pydanticv2 = python311Packages.callPackage ./development/python-modules/pydanticv2 {};
