@@ -29,6 +29,7 @@ python311Packages.buildPythonPackage rec {
 
   propagatedBuildInputs = with python311Packages; [
     gitpython
+    mkdocs
   ];
 
   # disable tests as includes more plugins
