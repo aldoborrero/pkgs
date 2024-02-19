@@ -48,6 +48,7 @@
       llm-mlc = python311Packages.callPackage ./development/python-modules/llm-mlc {inherit llm;};
       llm-mpt30b = python311Packages.callPackage ./development/python-modules/llm-mpt30b {inherit llm ctransformers;};
       llm-sentence-transformers = python311Packages.callPackage ./development/python-modules/llm-sentence-transformers {inherit llm;};
+      mkdocs-exec = python311Packages.callPackage ./development/python-modules/mkdocs-exec {};
       mlc-llm = python311Packages.callPackage ./development/python-modules/mlc-llm {};
       openai = python311Packages.callPackage ./development/python-modules/openai {};
       pydanticv2 = python311Packages.callPackage ./development/python-modules/pydanticv2 {};
