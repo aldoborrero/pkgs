@@ -9,67 +9,69 @@ in {
   options.services.actual-server = {
     enable = lib.mkEnableOption "Actual Server";
 
-    hostname = lib.mkOption {
+    listenHost = lib.mkOption {
       type = lib.types.str;
       default = "localhost";
-      description = "Hostname for the Actual Server.";
+      description = "Host for the server to listen on";
     };
 
     port = lib.mkOption {
       type = lib.types.int;
-      default = 4000;
-      description = "Port on which the Actual Server should listen.";
+      default = 5006;
+      description = "Port on which the Actual Server should listen";
     };
 
-    userFiles = lib.mkOption {
+    stateDir = lib.mkOption {
       type = lib.types.str;
       default = "/var/lib/actual-server";
-      description = "Directory for user files.";
+      description = "Directory for user files";
     };
 
     upload = {
       fileSizeSyncLimitMB = lib.mkOption {
         type = lib.types.nullOr lib.types.int;
         default = null;
-        description = "File size limit in MB for synchronized files.";
+        description = "File size limit in MB for synchronized files";
       };
 
       syncEncryptedFileSizeLimitMB = lib.mkOption {
         type = lib.types.nullOr lib.types.int;
         default = null;
-        description = "File size limit in MB for synchronized encrypted files.";
+        description = "File size limit in MB for synchronized encrypted files";
       };
 
       fileSizeLimitMB = lib.mkOption {
         type = lib.types.nullOr lib.types.int;
         default = null;
-        description = "File size limit in MB for file uploads.";
+        description = "File size limit in MB for file uploads";
       };
     };
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [pkgs.actual-server];
+    environment.systemPackages = [pkgs.cookie.actual-server];
 
     systemd.services.actual-server = {
       description = "Actual Server";
       after = ["network.target"];
       wantedBy = ["multi-user.target"];
+      preStart = "mkdir ${cfg.stateDir}/{server,user} || true";
+      environment = {
+        # Set environment variables from configuration options here
+        ACTUAL_HOSTNAME = cfg.listenHost;
+        ACTUAL_PORT = toString cfg.port;
+        ACTUAL_USER_FILES = "${cfg.stateDir}/user";
+        ACTUAL_SERVER_FILES = "${cfg.stateDir}/server";
+        # For uploads, set the respective environment variables.
+        ACTUAL_UPLOAD_FILE_SYNC_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeSyncLimitMB or "");
+        ACTUAL_UPLOAD_SYNC_ENCRYPTED_FILE_SIZE_LIMIT_MB = toString (cfg.upload.syncEncryptedFileSizeLimitMB or "");
+        ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeLimitMB or "");
+      };
       serviceConfig = {
-        ExecStart = "${pkgs.actual-server}/bin/start-actual-server";
+        ExecStart = "${pkgs.cookie.actual-server}/bin/actual-server";
         Restart = "always";
         StateDirectory = "actual-server";
         DynamicUser = true;
-        Environment = {
-          # Set environment variables from configuration options here
-          ACTUAL_HOSTNAME = cfg.hostname;
-          ACTUAL_PORT = toString cfg.port;
-          ACTUAL_USER_FILES = cfg.userFiles;
-          # For uploads, set the respective environment variables.
-          ACTUAL_UPLOAD_FILE_SYNC_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeSyncLimitMB or "");
-          ACTUAL_UPLOAD_SYNC_ENCRYPTED_FILE_SIZE_LIMIT_MB = toString (cfg.upload.syncEncryptedFileSizeLimitMB or "");
-          ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeLimitMB or "");
-        };
       };
     };
   };
