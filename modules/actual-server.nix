@@ -49,7 +49,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [pkgs.cookie.actual-server];
+    environment.systemPackages = [pkgs.actual-server];
 
     systemd.services.actual-server = {
       description = "Actual Server";
@@ -68,7 +68,7 @@ in {
         ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeLimitMB or "");
       };
       serviceConfig = {
-        ExecStart = "${pkgs.cookie.actual-server}/bin/actual-server";
+        ExecStart = lib.getExe' pkgs.actual-server "actual-server";
         Restart = "always";
         StateDirectory = "actual-server";
         DynamicUser = true;
