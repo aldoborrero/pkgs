@@ -12,6 +12,9 @@
       # by-name / ac
       actual-server = callPackage ./by-name/ac/actual-server {};
 
+      # by-name / bu
+      # buildarr = python311Packages.callPackage ./by-name/bu/buildarr {};
+
       # by-name / fi
       filebrowser = callPackage ./by-name/fi/filebrowser {};
 
