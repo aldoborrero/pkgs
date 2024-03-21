@@ -19,9 +19,9 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    flake-root.url = "github:srid/flake-root";
 
     # utilities
+    systems.url = "github:nix-systems/default";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -48,6 +48,7 @@
     flake-parts,
     haumea,
     nixpkgs,
+    systems,
     ...
   }: let
     lib = nixpkgs.lib.extend (l: _: (inputs.lib-extras.lib l));
@@ -65,20 +66,14 @@
       imports = [
         inputs.devshell.flakeModule
         inputs.flake-parts.flakeModules.easyOverlay
-        inputs.flake-root.flakeModule
         inputs.treefmt-nix.flakeModule
         localInputs.pkgs.default
         localInputs.modules.default
       ];
 
-      debug = true;
+      debug = false;
 
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
+      systems = import systems;
 
       perSystem = {
         pkgs,
@@ -103,18 +98,17 @@
 
         # packages
         packages = {
-          mdformat-with-plugins = with pkgs.python311Packages;
-            mdformat.withPlugins [
-              mdformat-footnote
-              mdformat-frontmatter
-              mdformat-gfm
-              mdformat-simple-breaks
-            ];
+          mdformat-with-plugins = pkgs.mdformat.withPlugins (p: [
+            p.mdformat-footnote
+            p.mdformat-frontmatter
+            p.mdformat-gfm
+            p.mdformat-simple-breaks
+          ]);
         };
 
         # devshells
         devshells.default = {
-          name = "pkgs";
+          name = "mynixpkgs";
           packages = [
             # Add your devshell packages here
           ];
@@ -136,7 +130,7 @@
 
         # treefmt
         treefmt.config = {
-          inherit (config.flake-root) projectRootFile;
+          projectRootFile = "flake.nix";
           flakeFormatter = true;
           flakeCheck = true;
           programs = {
