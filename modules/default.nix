@@ -3,7 +3,7 @@
   flake.nixosModules.default = {
     imports = [
       ./actual-server.nix
-      ./ollama.nix
+      ./pgweb.nix
     ];
   };
 }
