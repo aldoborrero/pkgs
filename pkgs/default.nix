@@ -32,6 +32,8 @@
       # by-name / sr
       strip-tags = python311Packages.callPackage ./by-name/sr/strip-tags {};
 
+      # by-name / zo
+      zot = callPackage ./by-name/zo/zot {};
 
       # development / python-modules
 
