@@ -56,7 +56,6 @@
       mlc-llm = python311Packages.callPackage ./development/python-modules/mlc-llm {};
       openai = python311Packages.callPackage ./development/python-modules/openai {};
       pydanticv2 = python311Packages.callPackage ./development/python-modules/pydanticv2 {};
-      pyemvue = python311Packages.callPackage ./development/python-modules/pyemvue {};
     };
 
     apps = lib.mapAttrs (_name: drv: lib.flakes.mkApp {inherit drv;}) self'.packages;
