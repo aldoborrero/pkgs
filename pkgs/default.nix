@@ -24,9 +24,6 @@
       # by-name / ll
       llm = callPackage ./by-name/ll/llm {};
 
-      # by-name / ot
-      oterm = python311Packages.callPackage ./by-name/ot/oterm {};
-
       # by-name / os
       ospeak = callPackage ./by-name/os/ospeak {
         inherit openai; # requires openai version 1.0
