@@ -35,8 +35,6 @@
       # by-name / sr
       strip-tags = python311Packages.callPackage ./by-name/sr/strip-tags {};
 
-      # by-name / sy
-      systemctl-tui = callPackage ./by-name/sy/systemctl-tui {};
 
       # development / python-modules
 
