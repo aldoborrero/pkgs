@@ -42,6 +42,7 @@
       url = "github:srid/devour-flake";
       flake = false;
     };
+    flake-compat.url = "github:nix-community/flake-compat";
   };
 
   outputs = inputs @ {
