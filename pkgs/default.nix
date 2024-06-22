@@ -30,9 +30,7 @@
       llm = callPackage ./by-name/ll/llm {};
 
       # by-name / os
-      ospeak = callPackage ./by-name/os/ospeak {
-        inherit openai; # requires openai version 1.0
-      };
+      ospeak = callPackage ./by-name/os/ospeak {};
 
       # by-name / sr
       strip-tags = python311Packages.callPackage ./by-name/sr/strip-tags {};
@@ -47,17 +45,16 @@
 
       ctransformers = python311Packages.callPackage ./development/python-modules/ctransformers {};
       gpt4all = python311Packages.callPackage ./development/python-modules/gpt4all {};
-      llm-clip = python311Packages.callPackage ./development/python-modules/llm-clip {inherit llm;};
-      llm-cluster = python311Packages.callPackage ./development/python-modules/llm-cluster {inherit llm;};
-      llm-llama-cpp = python311Packages.callPackage ./development/python-modules/llm-llama-cpp {inherit llm;};
-      llm-mlc = python311Packages.callPackage ./development/python-modules/llm-mlc {inherit llm;};
-      llm-mpt30b = python311Packages.callPackage ./development/python-modules/llm-mpt30b {inherit llm ctransformers;};
-      llm-sentence-transformers = python311Packages.callPackage ./development/python-modules/llm-sentence-transformers {inherit llm;};
+      # llm-clip = python311Packages.callPackage ./development/python-modules/llm-clip {inherit llm;};
+      # llm-cluster = python311Packages.callPackage ./development/python-modules/llm-cluster {inherit llm;};
+      # llm-llama-cpp = python311Packages.callPackage ./development/python-modules/llm-llama-cpp {inherit llm;};
+      # llm-mlc = python311Packages.callPackage ./development/python-modules/llm-mlc {inherit llm;};
+      # llm-mpt30b = python311Packages.callPackage ./development/python-modules/llm-mpt30b {inherit llm ctransformers;};
+      # llm-sentence-transformers = python311Packages.callPackage ./development/python-modules/llm-sentence-transformers {inherit llm;};
       mkdocs-exec = python311Packages.callPackage ./development/python-modules/mkdocs-exec {};
       mkdocs-git-authors-plugin = python311Packages.callPackage ./development/python-modules/mkdocs-git-authors-plugin {};
       mlc-llm = python311Packages.callPackage ./development/python-modules/mlc-llm {};
-      openai = python311Packages.callPackage ./development/python-modules/openai {};
-      pydanticv2 = python311Packages.callPackage ./development/python-modules/pydanticv2 {};
+      # pydanticv2 = python311Packages.callPackage ./development/python-modules/pydanticv2 {};
     };
 
     apps = lib.mapAttrs (_name: drv: lib.flakes.mkApp {inherit drv;}) self'.packages;
