@@ -6,7 +6,7 @@
   pkg-config,
 }:
 rustPlatform.buildRustPackage rec {
-  pname = "kclvm";
+  pname = "kcl-language-server";
   version = "0.9.0";
 
   src = fetchFromGitHub {
@@ -17,6 +17,7 @@ rustPlatform.buildRustPackage rec {
   };
 
   sourceRoot = "source/kclvm";
+
   cargoLock = {
     lockFile = ./Cargo.lock;
     outputHashes = {
@@ -25,9 +26,15 @@ rustPlatform.buildRustPackage rec {
     };
   };
 
-  nativeBuildInputs = [pkg-config protobuf];
+  nativeBuildInputs = [
+    pkg-config
+    protobuf
+  ];
 
-  # patches = [./enable_protoc_env.patch];
+  buildAndTestSubdir = "tools/src/LSP";
+  cargoBuildFlags = ["--release"];
+
+  doCheck = false;
 
   PROTOC = "${protobuf}/bin/protoc";
   PROTOC_INCLUDE = "${protobuf}/include";
@@ -38,5 +45,6 @@ rustPlatform.buildRustPackage rec {
     license = licenses.asl20;
     platforms = platforms.linux;
     maintainers = with maintainers; [selfuryon peefy];
+    mainProgram = "kcl-language-server";
   };
 }
