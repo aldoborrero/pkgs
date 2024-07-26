@@ -16,6 +16,7 @@
       # buildarr = python311Packages.callPackage ./by-name/bu/buildarr {};
 
       # by-name / he
+      helm-images = callPackage ./by-name/he/helm-images {};
       helm-schema = callPackage ./by-name/he/helm-schema {};
 
       # by-name / je
