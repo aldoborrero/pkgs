@@ -28,6 +28,9 @@
       kclvm = callPackage ./by-name/kc/kclvm {};
       kclvm_cli = callPackage ./by-name/kc/kclvm_cli {inherit kclvm;};
 
+      # by-name / ku
+      kusion = callPackage ./by-name/ku/kusion {};
+
       # by-name / ll
       llm = callPackage ./by-name/ll/llm {};
 
