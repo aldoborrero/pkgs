@@ -103,7 +103,7 @@
 
         # packages
         packages = {
-          mdformat-with-plugins = pkgs.mdformat.withPlugins (p: [
+          mdformat = pkgs.mdformat.withPlugins (p: [
             p.mdformat-footnote
             p.mdformat-frontmatter
             p.mdformat-gfm
@@ -114,9 +114,7 @@
         # devshells
         devshells.default = {
           name = "mynixpkgs";
-          packages = [
-            # Add your devshell packages here
-          ];
+          packages = [];
           commands = [
             {
               name = "fmt";
@@ -142,13 +140,14 @@
             alejandra.enable = true;
             deadnix.enable = true;
             mdformat.enable = true;
-            deno.enable = true;
             shfmt.enable = true;
             terraform.enable = true;
+            yamlfmt.enable = true;
           };
           settings.formatter = {
-            deno.excludes = ["*.md"];
-            mdformat.command = lib.mkDefault self'.packages.mdformat-with-plugins;
+            deadnix.priority = 1;
+            alejandra.priority = 2;
+            mdformat.command = lib.mkDefault self'.packages.mdformat;
           };
         };
 
