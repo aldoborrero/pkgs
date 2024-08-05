@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://docs.mergify.com/mergify-configuration-schema.json
+
 defaults:
   actions:
     queue:
@@ -5,7 +7,7 @@ defaults:
 
 queue_rules:
   - name: default
-    conditions:
+    merge_conditions:
       - check-success=nix-flake-check
 
 pull_request_rules:
