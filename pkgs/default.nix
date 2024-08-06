@@ -23,6 +23,9 @@
       jetbrains-fleet = callPackage ./by-name/je/jetbrains-fleet {};
 
       # by-name / kc
+      kbld = callPackage ./by-name/kb/kbld {};
+
+      # by-name / kc
       kcl = callPackage ./by-name/kc/kcl {inherit kclvm kclvm_cli;};
       kcl-language-server = callPackage ./by-name/kc/kcl-language-server {};
       kclvm = callPackage ./by-name/kc/kclvm {};
