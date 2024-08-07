@@ -19,6 +19,9 @@
       helm-images = callPackage ./by-name/he/helm-images {};
       helm-schema = callPackage ./by-name/he/helm-schema {};
 
+      # by-name / im
+      imgpkg = callPackage ./by-name/im/imgpkg {};
+
       # by-name / je
       jetbrains-fleet = callPackage ./by-name/je/jetbrains-fleet {};
 
