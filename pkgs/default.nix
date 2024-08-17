@@ -51,21 +51,11 @@
 
       # development / python-modules
 
-      # llm-claude = python311Packages.callPackage ./development/python-modules/llm-claude {inherit llm;};
-      # llm-gpt4all = python311Packages.callPackage ./development/python-modules/llm-gpt4all {inherit llm;};
-
       ctransformers = python311Packages.callPackage ./development/python-modules/ctransformers {};
       gpt4all = python311Packages.callPackage ./development/python-modules/gpt4all {};
-      # llm-clip = python311Packages.callPackage ./development/python-modules/llm-clip {inherit llm;};
-      # llm-cluster = python311Packages.callPackage ./development/python-modules/llm-cluster {inherit llm;};
-      # llm-llama-cpp = python311Packages.callPackage ./development/python-modules/llm-llama-cpp {inherit llm;};
-      # llm-mlc = python311Packages.callPackage ./development/python-modules/llm-mlc {inherit llm;};
-      # llm-mpt30b = python311Packages.callPackage ./development/python-modules/llm-mpt30b {inherit llm ctransformers;};
-      # llm-sentence-transformers = python311Packages.callPackage ./development/python-modules/llm-sentence-transformers {inherit llm;};
       mkdocs-exec = python311Packages.callPackage ./development/python-modules/mkdocs-exec {};
       mkdocs-git-authors-plugin = python311Packages.callPackage ./development/python-modules/mkdocs-git-authors-plugin {};
       mlc-llm = python311Packages.callPackage ./development/python-modules/mlc-llm {};
-      # pydanticv2 = python311Packages.callPackage ./development/python-modules/pydanticv2 {};
     };
 
     apps = lib.mapAttrs (_name: drv: lib.flakes.mkApp {inherit drv;}) self'.packages;
