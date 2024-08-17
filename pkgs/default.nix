@@ -16,6 +16,8 @@
       # buildarr = python311Packages.callPackage ./by-name/bu/buildarr {};
 
 
+      # by-name / cu
+      cueimports = callPackage ./by-name/cu/cueimports {};
 
       # by-name / dt
       dt = callPackage ./by-name/dt/distribution-tooling-for-helm {};
