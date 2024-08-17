@@ -15,6 +15,8 @@
       # by-name / bu
       # buildarr = python311Packages.callPackage ./by-name/bu/buildarr {};
 
+      # by-name / ch
+      charts-syncer = callPackage ./by-name/ch/charts-syncer {};
 
       # by-name / cu
       cueimports = callPackage ./by-name/cu/cueimports {};
