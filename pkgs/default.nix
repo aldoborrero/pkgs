@@ -46,9 +46,6 @@
       # by-name / ku
       kusion = callPackage ./by-name/ku/kusion {};
 
-      # by-name / ll
-      llm = callPackage ./by-name/ll/llm {};
-
       # by-name / os
       ospeak = callPackage ./by-name/os/ospeak {};
 
@@ -60,11 +57,8 @@
 
       # development / python-modules
 
-      ctransformers = python311Packages.callPackage ./development/python-modules/ctransformers {};
-      gpt4all = python311Packages.callPackage ./development/python-modules/gpt4all {};
       mkdocs-exec = python311Packages.callPackage ./development/python-modules/mkdocs-exec {};
       mkdocs-git-authors-plugin = python311Packages.callPackage ./development/python-modules/mkdocs-git-authors-plugin {};
-      mlc-llm = python311Packages.callPackage ./development/python-modules/mlc-llm {};
     };
 
     apps = lib.mapAttrs (_name: drv: lib.flakes.mkApp {inherit drv;}) self'.packages;
