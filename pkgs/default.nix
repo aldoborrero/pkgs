@@ -45,6 +45,7 @@
 
       # by-name / ku
       kusion = callPackage ./by-name/ku/kusion {};
+      kustomizer = callPackage ./by-name/ku/kustomizer {};
 
       # by-name / os
       ospeak = callPackage ./by-name/os/ospeak {};
