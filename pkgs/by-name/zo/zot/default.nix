@@ -6,13 +6,13 @@
 }:
 buildGoModule rec {
   pname = "zot";
-  version = "2.0.3";
+  version = "2.1.1";
 
   src = fetchFromGitHub {
     owner = "project-zot";
     repo = "zot";
     rev = "v${version}";
-    hash = "sha256-lobyFGlNj0apfr2gaLSrD5Q5BsagAb8B/TZVKTYpihY";
+    hash = "sha256-gM6niHLWE4Cr6FwyIvcke/JM/PPrKpXQjpSpjgz6BUI=";
   };
 
   CGO_ENABLED = 0;
