@@ -6,7 +6,7 @@
     system,
     ...
   }: let
-    inherit (pkgs) callPackage python311Packages;
+    inherit (pkgs) callPackage python312Packages;
   in {
     packages = lib.flakes.platformPkgs system rec {
       # by-name / ac
@@ -53,15 +53,15 @@
       ospeak = callPackage ./by-name/os/ospeak {};
 
       # by-name / sr
-      strip-tags = python311Packages.callPackage ./by-name/sr/strip-tags {};
+      strip-tags = python312Packages.callPackage ./by-name/sr/strip-tags {};
 
       # by-name / zo
       zot = callPackage ./by-name/zo/zot {};
 
       # development / python-modules
 
-      mkdocs-exec = python311Packages.callPackage ./development/python-modules/mkdocs-exec {};
-      mkdocs-git-authors-plugin = python311Packages.callPackage ./development/python-modules/mkdocs-git-authors-plugin {};
+      mkdocs-exec = python312Packages.callPackage ./development/python-modules/mkdocs-exec {};
+      mkdocs-git-authors-plugin = python312Packages.callPackage ./development/python-modules/mkdocs-git-authors-plugin {};
     };
 
     apps = lib.mapAttrs (_name: drv: lib.flakes.mkApp {inherit drv;}) self'.packages;
