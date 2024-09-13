@@ -16,6 +16,7 @@
       # buildarr = python311Packages.callPackage ./by-name/bu/buildarr {};
 
       # by-name / ch
+      chartify = callPackage ./by-name/ch/chartify {};
       charts-syncer = callPackage ./by-name/ch/charts-syncer {};
 
       # by-name / cu
