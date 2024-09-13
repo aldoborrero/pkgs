@@ -69,7 +69,7 @@ in {
       volumes = [
         "${cfg.dataDir}:/data"
       ];
-      environment = lib.filterAttrs (n: v: v != null) {
+      environment = lib.filterAttrs (_n: v: v != null) {
         ACTUAL_PORT = toString cfg.port;
         ACTUAL_HTTPS_KEY = cfg.httpsKey;
         ACTUAL_HTTPS_CERT = cfg.httpsCert;
