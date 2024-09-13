@@ -45,6 +45,7 @@
       kclvm_cli = callPackage ./by-name/kc/kclvm_cli {inherit kclvm;};
 
       # by-name / ku
+      kubectl-kcl = callPackage ./by-name/ku/kubectl-kcl {};
       kusion = callPackage ./by-name/ku/kusion {};
       kustomizer = callPackage ./by-name/ku/kustomizer {};
 
