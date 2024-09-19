@@ -59,7 +59,6 @@
       zot = callPackage ./by-name/zo/zot {};
 
       # development / python-modules
-
       mkdocs-exec = python312Packages.callPackage ./development/python-modules/mkdocs-exec {};
       mkdocs-git-authors-plugin = python312Packages.callPackage ./development/python-modules/mkdocs-git-authors-plugin {};
     };
