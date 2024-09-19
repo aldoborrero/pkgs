@@ -1,15 +1,9 @@
 # yaml-language-server: $schema=https://docs.mergify.com/mergify-configuration-schema.json
 
-defaults:
-  actions:
-    queue:
-      allow_merging_configuration_change: true
-
 queue_rules:
   - name: default
     merge_conditions:
       - check-success=nix-flake-check
-
 pull_request_rules:
   - name: Automerge PRs using the merge queue
     conditions:
@@ -18,7 +12,6 @@ pull_request_rules:
     actions:
       queue:
         name: default
-
   - name: Delete head branch after merge
     conditions:
       - merged
