@@ -17,7 +17,7 @@ buildGoModule rec {
 
   CGO_ENABLED = 0;
 
-  vendorHash = "sha256-0N8d8nSdKskRAz/ENfD3xdt89E7nInYKPNOQ/tpGY+M=";
+  vendorHash = "sha256-f6SUgv2tCzNfLG0j2lqHPTBk7hr9J/celEF1OCpiSIU=";
 
   extensions = "sync,search,scrub,metrics,lint,ui,mgmt,profile,userprefs,imagetrust";
 
