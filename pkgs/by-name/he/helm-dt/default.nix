@@ -23,7 +23,6 @@ buildGo122Module rec {
 
   postPatch = ''
     sed -i '/^hooks:/,+2 d' plugin.yaml
-    sed -i 's|command: "$HELM_PLUGIN_DIR/bin/dt"|command: "$HELM_PLUGIN_DIR/${pname}/bin/dt"|' plugin.yaml
   '';
 
   postInstall = ''
