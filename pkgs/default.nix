@@ -23,9 +23,9 @@
       cueimports = callPackage ./by-name/cu/cueimports {};
 
       # by-name / dt
-      dt = callPackage ./by-name/dt/distribution-tooling-for-helm {};
 
       # by-name / he
+      helm-dt = callPackage ./by-name/he/helm-dt {};
       helm-images = callPackage ./by-name/he/helm-images {};
       helm-schema = callPackage ./by-name/he/helm-schema {};
 

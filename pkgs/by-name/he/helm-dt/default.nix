@@ -4,7 +4,7 @@
   lib,
 }:
 buildGo122Module rec {
-  pname = "dt";
+  pname = "helm-dt";
   version = "0.4.3";
 
   src = fetchFromGitHub {
@@ -23,11 +23,12 @@ buildGo122Module rec {
 
   postPatch = ''
     sed -i '/^hooks:/,+2 d' plugin.yaml
+    sed -i 's|command: "$HELM_PLUGIN_DIR/bin/dt"|command: "$HELM_PLUGIN_DIR/${pname}/bin/dt"|' plugin.yaml
   '';
 
   postInstall = ''
-    install -dm755 $out/${pname}
-    mv $out/bin $out/${pname}/
+    install -dm755 $out/${pname}/bin
+    ln -s $out/bin/dt $out/${pname}/bin/dt
     install -m644 -Dt $out/${pname} plugin.yaml
   '';
 
@@ -37,7 +38,7 @@ buildGo122Module rec {
 
   meta = with lib; {
     description = "Helm Distribution plugin is is a set of utilities and Helm Plugin for making offline work with Helm Charts easier. It is meant to be used for creating reproducible and relocatable packages for Helm Charts that can be moved around registries without hassles. This is particularly useful for distributing Helm Charts into airgapped environments";
-    homepage = "https://github.com/dadav/helm-schema";
+    homepage = "https://github.com/vmware-labs/distribution-tooling-for-helm";
     license = licenses.mit;
     maintainers = with maintainers; [aldoborrero];
     mainProgram = "dt";
