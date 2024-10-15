@@ -1,23 +1,19 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 name: "Nix Flake Check"
-
 on:
   pull_request:
   push:
     branches:
       - main
   workflow_dispatch:
-
 jobs:
   nix-flake-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Install Nix
         uses: cachix/install-nix-action@v27
-
       - name: Nix Flake Check
         run: nix flake check
