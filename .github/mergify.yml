@@ -4,15 +4,16 @@ queue_rules:
   - name: default
     merge_conditions:
       - check-success=nix-flake-check
+
 pull_request_rules:
-  - name: Automerge PRs using the merge queue
+  - name: Automerge PRs
     conditions:
-      - label=merge-queue
+      - label~=auto|dependencies|merge-queue
       - base=main
     actions:
       queue:
         name: default
-  - name: Delete head branch after merge
+  - name: Delete merged branches
     conditions:
       - merged
     actions:
