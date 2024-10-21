@@ -60,22 +60,23 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    virtualisation.podman.enable = true;
-    virtualisation.oci-containers.backend = "podman";
-
-    virtualisation.oci-containers.containers.actual-server = {
-      image = cfg.image;
-      ports = ["${toString cfg.port}:5006"];
-      volumes = [
-        "${cfg.dataDir}:/data"
-      ];
-      environment = lib.filterAttrs (_n: v: v != null) {
-        ACTUAL_PORT = toString cfg.port;
-        ACTUAL_HTTPS_KEY = cfg.httpsKey;
-        ACTUAL_HTTPS_CERT = cfg.httpsCert;
-        ACTUAL_UPLOAD_FILE_SYNC_SIZE_LIMIT_MB = toString (cfg.upload.fileSyncSizeLimitMB or "");
-        ACTUAL_UPLOAD_SYNC_ENCRYPTED_FILE_SYNC_SIZE_LIMIT_MB = toString (cfg.upload.syncEncryptedFileSizeLimitMB or "");
-        ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeLimitMB or "");
+    virtualisation = {
+      podman.enable = true;
+      oci-containers.backend = "podman";
+      oci-containers.containers.actual-server = {
+        inherit (cfg) image;
+        ports = ["${toString cfg.port}:5006"];
+        volumes = [
+          "${cfg.dataDir}:/data"
+        ];
+        environment = lib.filterAttrs (_n: v: v != null) {
+          ACTUAL_PORT = toString cfg.port;
+          ACTUAL_HTTPS_KEY = cfg.httpsKey;
+          ACTUAL_HTTPS_CERT = cfg.httpsCert;
+          ACTUAL_UPLOAD_FILE_SYNC_SIZE_LIMIT_MB = toString (cfg.upload.fileSyncSizeLimitMB or "");
+          ACTUAL_UPLOAD_SYNC_ENCRYPTED_FILE_SYNC_SIZE_LIMIT_MB = toString (cfg.upload.syncEncryptedFileSizeLimitMB or "");
+          ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeLimitMB or "");
+        };
       };
     };
 

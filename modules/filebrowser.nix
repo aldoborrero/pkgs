@@ -146,7 +146,7 @@
       users.groups.filebrowser = lib.mkIf (cfg.group == "filebrowser") {};
 
       users.users.filebrowser = lib.mkIf (cfg.user == "filebrowser") {
-        group = cfg.group;
+        inherit (cfg) group;
         home = cfg.dataDir;
         isSystemUser = true;
       };
