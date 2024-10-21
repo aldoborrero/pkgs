@@ -39,10 +39,7 @@
       kbld = callPackage ./by-name/kb/kbld {};
 
       # by-name / kc
-      kcl = callPackage ./by-name/kc/kcl {inherit kclvm kclvm_cli;};
       kcl-language-server = callPackage ./by-name/kc/kcl-language-server {};
-      kclvm = callPackage ./by-name/kc/kclvm {};
-      kclvm_cli = callPackage ./by-name/kc/kclvm_cli {inherit kclvm;};
 
       # by-name / ku
       kubectl-kcl = callPackage ./by-name/ku/kubectl-kcl {};
