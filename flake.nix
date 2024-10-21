@@ -83,7 +83,6 @@
       perSystem = {
         pkgs,
         lib,
-        config,
         system,
         self',
         ...
@@ -139,6 +138,7 @@
           programs = {
             alejandra.enable = true;
             deadnix.enable = true;
+            statix.enable = true;
             mdformat.enable = true;
             shfmt.enable = true;
             terraform.enable = true;
@@ -146,7 +146,8 @@
           };
           settings.formatter = {
             deadnix.priority = 1;
-            alejandra.priority = 2;
+            statix.priority = 2;
+            alejandra.priority = 3;
             mdformat.command = lib.mkDefault self'.packages.mdformat;
           };
         };
