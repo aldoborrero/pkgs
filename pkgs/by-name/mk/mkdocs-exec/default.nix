@@ -10,7 +10,7 @@
 }:
 buildPythonPackage rec {
   pname = "markdown-exec";
-  version = "1.8.0";
+  version = "1.9.3";
   pyproject = true;
 
   disabled = pythonOlder "3.8";
@@ -19,7 +19,7 @@ buildPythonPackage rec {
     owner = "pawamoy";
     repo = "markdown-exec";
     rev = "${version}";
-    hash = "sha256-Idm8WS9v3PMYiCc9HEXC78Lht/Oo9A4P1SSLOt2TBpE=";
+    hash = "sha256-nbS3k4DlYAdrKbidNSKP51gAS/9F3oiHnSGeLMVSjBE=";
   };
 
   nativeBuildInputs = [

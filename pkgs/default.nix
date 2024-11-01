@@ -44,6 +44,10 @@
       kusion = callPackage ./by-name/ku/kusion {};
       kustomizer = callPackage ./by-name/ku/kustomizer {};
 
+      # by-name / mk
+      mkdocs-exec = python312Packages.callPackage ./by-name/mk/mkdocs-exec {};
+      mkdocs-git-authors-plugin = python312Packages.callPackage ./by-name/mk/mkdocs-git-authors-plugin {};
+
       # by-name / os
       ospeak = callPackage ./by-name/os/ospeak {};
 
@@ -52,10 +56,6 @@
 
       # by-name / zo
       zot = callPackage ./by-name/zo/zot {};
-
-      # development / python-modules
-      mkdocs-exec = python312Packages.callPackage ./development/python-modules/mkdocs-exec {};
-      mkdocs-git-authors-plugin = python312Packages.callPackage ./development/python-modules/mkdocs-git-authors-plugin {};
     };
 
     apps = lib.mapAttrs (_name: drv: lib.flakes.mkApp {inherit drv;}) self'.packages;

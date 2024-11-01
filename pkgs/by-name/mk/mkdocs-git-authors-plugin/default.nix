@@ -5,14 +5,14 @@
 }:
 python311Packages.buildPythonPackage rec {
   pname = "mkdocs-git-authors-plugin";
-  version = "0.7.2";
+  version = "0.9.1";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "timvink";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-jhYwi9HO6kxOS1QmEKb1YnXGSJ4Eyo4Sm07jI4lxXnA=";
+    hash = "sha256-q0SlgvGofPhP3RtA5mCAtz6fgfRGAOhUnpTonTuztOw=";
   };
 
   buildInputs = with python311Packages; [
