@@ -5,16 +5,16 @@
 }:
 buildGoModule rec {
   pname = "chartify";
-  version = "0.20.1";
+  version = "0.20.3";
 
   src = fetchFromGitHub {
     owner = "helmfile";
     repo = "chartify";
     rev = "v${version}";
-    hash = "sha256-kxyBVGnvc6XvktpRVEAqymHdLMAlHd/i4gVovJ6n6To=";
+    hash = "sha256-bRXCU4Fx/5UV/VhLvujYYdkWUdVzDZxOaMkb0P/ZtDc=";
   };
 
-  vendorHash = "sha256-5q1DwKCPUxSZRc+Ov3v3VV5rdp4isdM+IYwpN6+EpsQ=";
+  vendorHash = "sha256-Mp8XGxIn7VTzJDVweOtBBe2hSJIOWabMW0bZjsXJ5WA=";
 
   ldflags = [
     "-s"
