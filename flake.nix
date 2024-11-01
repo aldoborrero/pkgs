@@ -77,11 +77,22 @@
         ]
         ++ (with flakeInputs; [
           pkgs.default
+          flake-modules.autoNixosModules
         ]);
 
       debug = false;
 
       systems = import systems;
+
+      auto.nixosModules = {
+        path = ./nixos-modules;
+        includeDefaults = true;
+      };
+
+      flake.flakeModules = {
+        default = {};
+        autoNixosModules = ./flake-modules/autoNixosModules.nix;
+      };
 
       perSystem = {
         pkgs,
