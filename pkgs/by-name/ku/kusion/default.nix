@@ -5,16 +5,16 @@
 }:
 buildGoModule rec {
   pname = "kusion";
-  version = "0.12.1";
+  version = "0.13.0";
 
   src = fetchFromGitHub {
     owner = "KusionStack";
     repo = "kusion";
     rev = "v${version}";
-    hash = "sha256-TA3g5aMM9HlW/l66PaJkUJ4TePt42PjegbHPEwQ5koI=";
+    hash = "sha256-5qrSMgK7I/m+zUMv4U2lyGoe4FX5mkKLlvlORTGnZ2U=";
   };
 
-  vendorHash = "sha256-7MnxlKwdhva4GMOShEeGy1cBjOgvCX1x/pUYpizop9k=";
+  vendorHash = "sha256-oFp+KUIYi82Crn58xEuIAT6s5zTUpHanzhn482j3+EE=";
 
   subPackages = ["kusion.go"];
 
