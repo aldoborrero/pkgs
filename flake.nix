@@ -57,7 +57,7 @@
     ...
   }: let
     lib = nixpkgs.lib.extend (l: _: (inputs.lib-extras.lib l));
-    localInputs = haumea.lib.load {
+    flakeInputs = haumea.lib.load {
       src = ./.;
       loader = haumea.lib.loaders.path;
     };
@@ -65,16 +65,19 @@
     flake-parts.lib.mkFlake
     {
       inherit inputs;
-      specialArgs = {inherit lib localInputs;};
+      specialArgs = {inherit lib flakeInputs;};
     }
     {
-      imports = [
-        inputs.devshell.flakeModule
-        inputs.flake-parts.flakeModules.easyOverlay
-        inputs.treefmt-nix.flakeModule
-        localInputs.pkgs.default
-        localInputs.modules.default
-      ];
+      imports = with inputs;
+        [
+          devshell.flakeModule
+          flake-parts.flakeModules.easyOverlay
+          flake-parts.flakeModules.flakeModules
+          treefmt-nix.flakeModule
+        ]
+        ++ (with flakeInputs; [
+          pkgs.default
+        ]);
 
       debug = false;
 
