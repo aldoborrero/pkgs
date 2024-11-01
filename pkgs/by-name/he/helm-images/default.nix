@@ -5,16 +5,16 @@
 }:
 buildGoModule rec {
   pname = "helm-images";
-  version = "0.1.5";
+  version = "0.1.7";
 
   src = fetchFromGitHub {
     owner = "nikhilsbhat";
     repo = "helm-images";
     rev = "v${version}";
-    hash = "sha256-22XI6IKXAiZlOl/1oHdQo3c1VEMGivjmvZdnTcQsa1U=";
+    hash = "sha256-SY1w7AevClk/3XBq2hpbfJJhGnNlcJTk/LaPtre/+io=";
   };
 
-  vendorHash = "sha256-u85pYLykWffTwf2ro9l1Xec+WYOZhQNI8+Dkl8jIbZM=";
+  vendorHash = "sha256-oWf4y/5bp1gaDd2UmW0QCNEF7jiLVEYwhMlyJhBLH9Q=";
 
   ldflags = ["-s" "-w"];
 
