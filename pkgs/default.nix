@@ -8,7 +8,7 @@
   }: let
     inherit (pkgs) callPackage python312Packages;
   in {
-    packages = lib.flakes.platformPkgs system rec {
+    packages = lib.flakes.platformPkgs system {
       # by-name / ac
       actual-server = callPackage ./by-name/ac/actual-server {};
 
@@ -21,8 +21,6 @@
 
       # by-name / cu
       cueimports = callPackage ./by-name/cu/cueimports {};
-
-      # by-name / dt
 
       # by-name / he
       helm-dt = callPackage ./by-name/he/helm-dt {};
