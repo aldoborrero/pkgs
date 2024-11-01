@@ -51,6 +51,9 @@
       # by-name / os
       ospeak = callPackage ./by-name/os/ospeak {};
 
+      # by-name / p1
+      p12 = callPackage ./by-name/p1/p12 {};
+
       # by-name / sr
       strip-tags = python312Packages.callPackage ./by-name/sr/strip-tags {};
 
