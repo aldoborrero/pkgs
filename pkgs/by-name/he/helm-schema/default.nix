@@ -5,13 +5,13 @@
 }:
 buildGo122Module rec {
   pname = "helm-schema";
-  version = "0.12.0";
+  version = "0.14.1";
 
   src = fetchFromGitHub {
     owner = "dadav";
     repo = "helm-schema";
     rev = "${version}";
-    hash = "sha256-+GNslbdoqMHP/1AfsdLRpPnmjL/tmll3vem62bCmWpk=";
+    hash = "sha256-mO6K/ZOIW6fpy/0NIkuqwn27c4dbgHRopdcei8rBj3I=";
   };
 
   vendorHash = "sha256-7cE5qLALOYXCd7PrdG4OUvBpnY1eXQ+cWj25ywO82rE=";
