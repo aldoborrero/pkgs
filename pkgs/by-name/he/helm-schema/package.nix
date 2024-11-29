@@ -1,9 +1,9 @@
 {
-  buildGo122Module,
+  buildGoModule,
   fetchFromGitHub,
   lib,
 }:
-buildGo122Module rec {
+buildGoModule rec {
   pname = "helm-schema";
   version = "0.14.1";
 
