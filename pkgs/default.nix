@@ -22,6 +22,9 @@
       # by-name / cu
       cueimports = callPackage ./by-name/cu/cueimports {};
 
+      # by-name / cu
+      ersatztv = callPackage ./by-name/er/ersatztv {};
+
       # by-name / he
       helm-dt = callPackage ./by-name/he/helm-dt {};
       helm-images = callPackage ./by-name/he/helm-images {};
