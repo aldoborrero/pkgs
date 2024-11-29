@@ -91,11 +91,11 @@
 
       flake.flakeModules = {
         default = {};
-        autoNixosModules = flakeInputs.flake-modules.autoNixosModules;
-        autoPkgs = flakeInputs.flake-modules.autoPkgs;
-        homeConfigurations = flakeInputs.flake-modules.homeConfigurations;
-        nixosConfigurations = flakeInputs.flake-modules.nixosConfigurations;
-        sopsSecrets = flakeInputs.flake-modules.sopsSecrets;
+        inherit (flakeInputs.flake-modules) autoNixosModules;
+        inherit (flakeInputs.flake-modules) autoPkgs;
+        inherit (flakeInputs.flake-modules) homeConfigurations;
+        inherit (flakeInputs.flake-modules) nixosConfigurations;
+        inherit (flakeInputs.flake-modules) sopsSecrets;
       };
 
       perSystem = {

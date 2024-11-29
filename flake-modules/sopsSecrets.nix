@@ -83,7 +83,7 @@ in {
           Supported file extensions: ${lib.concatStringsSep ", " (map (ext: ".${ext}") cfg.fileExtensions)}
         '';
         inventory = output:
-          lib.mapAttrs (name: value: {
+          lib.mapAttrs (_name: value: {
             what = "sops secret configuration";
             evalChecks = {
               hasSopsFile = value ? sopsFile;

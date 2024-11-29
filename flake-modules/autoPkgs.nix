@@ -55,7 +55,7 @@ in {
     }: let
       cfg = config.auto.pkgs;
 
-      scope = lib.makeScope pkgs.newScope (self: {
+      scope = lib.makeScope pkgs.newScope (_self: {
         inherit inputs;
       });
     in
@@ -71,7 +71,7 @@ in {
             callPackage = file: args: callback:
               callback file args;
           };
-          separator = cfg.separator;
+          inherit (cfg) separator;
           callback = scope.callPackage;
         };
       };
