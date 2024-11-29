@@ -68,13 +68,13 @@
       specialArgs = {inherit lib flakeInputs;};
     }
     {
-      imports = with inputs;
-        [
+      imports =
+        (with inputs; [
           devshell.flakeModule
           flake-parts.flakeModules.easyOverlay
           flake-parts.flakeModules.flakeModules
           treefmt-nix.flakeModule
-        ]
+        ])
         ++ (with flakeInputs; [
           pkgs.default
           flake-modules.autoNixosModules
@@ -92,6 +92,9 @@
       flake.flakeModules = {
         default = {};
         autoNixosModules = ./flake-modules/autoNixosModules.nix;
+        autoPkgs = ./flake-modules/autoPkgs.nix;
+        homeConfigurations = ./flake-modules/homeConfigurations.nix;
+        nixosConfigurations = ./flake-modules/nixosConfigurations.nix;
       };
 
       perSystem = {
