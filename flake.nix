@@ -91,10 +91,11 @@
 
       flake.flakeModules = {
         default = {};
-        autoNixosModules = ./flake-modules/autoNixosModules.nix;
-        autoPkgs = ./flake-modules/autoPkgs.nix;
-        homeConfigurations = ./flake-modules/homeConfigurations.nix;
-        nixosConfigurations = ./flake-modules/nixosConfigurations.nix;
+        autoNixosModules = flakeInputs.flake-modules.autoNixosModules;
+        autoPkgs = flakeInputs.flake-modules.autoPkgs;
+        homeConfigurations = flakeInputs.flake-modules.homeConfigurations;
+        nixosConfigurations = flakeInputs.flake-modules.nixosConfigurations;
+        sopsSecrets = flakeInputs.flake-modules.sopsSecrets;
       };
 
       perSystem = {
