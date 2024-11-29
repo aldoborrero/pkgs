@@ -7,7 +7,6 @@
   ffmpeg,
   which,
 }:
-
 buildDotnetModule rec {
   pname = "ersatztv";
   version = "0.8.8-beta";
@@ -19,7 +18,7 @@ buildDotnetModule rec {
     sha256 = "sha256-kXAJLM5PeLZH98oasynXfurN+Gyy+9XffpcGtSijiDs=";
   };
 
-  buildInputs = [ ffmpeg ];
+  buildInputs = [ffmpeg];
 
   projectFile = "ErsatzTV/ErsatzTV.csproj";
   executables = [
@@ -47,8 +46,8 @@ buildDotnetModule rec {
     description = "Configuring and streaming custom live channels using your media library";
     homepage = "https://ersatztv.org/";
     license = licenses.zlib;
-    maintainers = with maintainers; [ allout58 ];
+    maintainers = with maintainers; [allout58];
     mainProgram = "ErsatzTV";
-    platforms = dotnet-runtime.meta.platforms;
+    inherit (dotnet-runtime.meta) platforms;
   };
 }
