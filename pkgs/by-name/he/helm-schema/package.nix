@@ -1,9 +1,9 @@
 {
-  buildGoModule,
+  buildGo123Module,
   fetchFromGitHub,
   lib,
 }:
-buildGoModule rec {
+buildGo123Module rec {
   pname = "helm-schema";
   version = "0.14.1";
 
@@ -14,7 +14,7 @@ buildGoModule rec {
     hash = "sha256-mO6K/ZOIW6fpy/0NIkuqwn27c4dbgHRopdcei8rBj3I=";
   };
 
-  vendorHash = "sha256-7cE5qLALOYXCd7PrdG4OUvBpnY1eXQ+cWj25ywO82rE=";
+  vendorHash = "sha256-q0Z0mmG5KGB3EZNkW8NhmSvNcap3/dBGMOu4pERhTzE=";
 
   ldflags = [
     "-s"
