@@ -32,7 +32,12 @@ rustPlatform.buildRustPackage rec {
   ];
 
   buildAndTestSubdir = "tools/src/LSP";
-  cargoBuildFlags = ["--release"];
+
+  buildPhaseCargoFlags = [
+    "--profile"
+    "release"
+    "--offline"
+  ];
 
   doCheck = false;
 
