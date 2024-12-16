@@ -1,54 +1,129 @@
+# Taken from: https://github.com/NixOS/nixpkgs/pull/347825
 {
   lib,
-  buildNpmPackage,
+  stdenv,
+  stdenvNoCC,
   fetchFromGitHub,
-  python3,
-  nodejs,
-  runtimeShell,
-}:
-buildNpmPackage rec {
-  pname = "actual-server";
-  version = "23.11.0";
-
+  makeWrapper,
+  cacert,
+  gitMinimal,
+  nodejs_20,
+  yarn,
+  nixosTests,
+  nix-update-script,
+}: let
+  version = "24.12.0";
   src = fetchFromGitHub {
     owner = "actualbudget";
-    repo = pname;
-    rev = "refs/tags/v${version}";
-    hash = "sha256-S2d3vcu/z6uLq6dIlDf33GngAoORaBKd1Q8Q6LZuxxU=";
+    repo = "actual-server";
+    tag = "v${version}";
+    hash = "sha256-qCATfpYjDlR2LaalkF0/b5tD4HDE4aNDrLvTC4g0ctY=";
   };
 
-  npmDepsHash = "sha256-ID6WP/WTPYPQkV8Y0WRaSWtmE+MCfgTxkE3HoqP2MxI=";
+  yarn_20 = yarn.override {nodejs = nodejs_20;};
 
-  nativeBuildInputs = [
-    python3
-  ];
+  # We cannot use fetchYarnDeps because that doesn't support yarn2/berry
+  # lockfiles (see https://github.com/NixOS/nixpkgs/issues/254369)
+  offlineCache = stdenvNoCC.mkDerivation {
+    name = "actual-server-${version}-offline-cache";
+    inherit src;
 
-  postUnpack = ''
-    rm -rf yarn.lock
-  '';
+    nativeBuildInputs = [
+      cacert # needed for git
+      gitMinimal # needed to download git dependencies
+      yarn_20
+    ];
 
-  postPatch = ''
-    cp ${./package-lock.json} package-lock.json
-  '';
+    SUPPORTED_ARCHITECTURES = builtins.toJSON {
+      os = [
+        "darwin"
+        "linux"
+      ];
+      cpu = [
+        "arm"
+        "arm64"
+        "ia32"
+        "x64"
+      ];
+      libc = [
+        "glibc"
+        "musl"
+      ];
+    };
 
-  dontNpmBuild = true;
+    buildPhase = ''
+      runHook preBuild
 
-  postInstall = ''
-    # Make an executable to run the server
-    mkdir -p $out/bin
-    cat <<EOF > $out/bin/actual-server
-    #!${runtimeShell}
-    exec ${nodejs}/bin/node $out/lib/node_modules/actual-sync/app.js "\$@"
-    EOF
-    chmod +x $out/bin/actual-server
-  '';
+      export HOME=$(mktemp -d)
+      yarn config set enableTelemetry 0
+      yarn config set cacheFolder $out
+      yarn config set --json supportedArchitectures "$SUPPORTED_ARCHITECTURES"
+      yarn
 
-  meta = with lib; {
-    homepage = "https://github.com/actualbudget/actual-server";
-    description = "Actual's server";
-    changelog = "https://github.com/actualbudget/actual-server/releases/tag/v${version}";
-    mainProgram = pname;
-    license = licenses.mit;
-    maintainers = with maintainers; [aldoborrero];
+      runHook postBuild
+    '';
+
+    installPhase = ''
+      runHook preInstall
+
+      mkdir -p $out
+      cp -r ./node_modules $out/node_modules
+
+      runHook postInstall
+    '';
+    dontFixup = true;
+
+    outputHashAlgo = "sha256";
+    outputHashMode = "recursive";
+    outputHash =
+      rec {
+        x86_64-linux = "sha256-Rz+iKw4JDWtZOrCjs9sbHVw/bErAEY4TfoG+QfGKY94=";
+        aarch64-linux = x86_64-linux;
+        aarch64-darwin = "sha256-JGpRoIQrEI6crczHD62ZQO08GshBbzJC0dONYD69K/I=";
+        x86_64-darwin = aarch64-darwin;
+      }
+      .${stdenv.hostPlatform.system}
+      or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
   };
-}
+in
+  stdenv.mkDerivation {
+    pname = "actual-server";
+    inherit version src;
+
+    nativeBuildInputs = [
+      makeWrapper
+      yarn_20
+    ];
+
+    installPhase = ''
+      runHook preInstall
+
+      mkdir -p $out/{bin,lib,lib/actual}
+      cp -r ${offlineCache}/node_modules/ $out/lib/actual
+      cp -r ./ $out/lib/actual
+
+      makeWrapper ${lib.getExe nodejs_20} "$out/bin/actual-server" \
+        --add-flags "$out/lib/actual/app.js" \
+        --set NODE_PATH "$out/node_modules"
+
+      runHook postInstall
+    '';
+
+    passthru = {
+      inherit offlineCache;
+      tests = nixosTests.actual;
+      passthru.updateScript = nix-update-script {};
+    };
+
+    meta = {
+      changelog = "https://actualbudget.org/docs/releases";
+      description = "Super fast privacy-focused app for managing your finances";
+      homepage = "https://actualbudget.org/";
+      mainProgram = "actual-server";
+      license = lib.licenses.mit;
+      maintainers = [
+        lib.maintainers.oddlama
+        lib.maintainers.patrickdag
+      ];
+    };
+  }

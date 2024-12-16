@@ -1,97 +1,121 @@
+# Taken from: https://github.com/NixOS/nixpkgs/pull/347825
 {
-  config,
   lib,
+  pkgs,
+  config,
   ...
 }: let
-  cfg = config.services.actual-server;
+  inherit
+    (lib)
+    getExe
+    mkDefault
+    mkEnableOption
+    mkIf
+    mkOption
+    mkPackageOption
+    types
+    ;
+
+  cfg = config.services.actual;
+  configFile = formatType.generate "config.json" cfg.settings;
+  dataDir = "/var/lib/actual";
+
+  formatType = pkgs.formats.json {};
 in {
-  options.services.actual-server = {
-    enable = lib.mkEnableOption "Actual Server";
+  options.services.actual = {
+    enable = mkEnableOption "actual, a privacy focused app for managing your finances";
+    package = mkPackageOption pkgs "actual-server" {};
 
-    image = lib.mkOption {
-      type = lib.types.str;
-      default = "docker.io/actualbudget/actual-server:24.9.0-alpine";
-      description = "Docker image to use for Actual Server";
+    openFirewall = mkOption {
+      default = false;
+      type = types.bool;
+      description = "Whether to open the firewall for the specified port.";
     };
 
-    port = lib.mkOption {
-      type = lib.types.int;
-      default = 5006;
-      description = "Port on which the Actual Server should listen";
-    };
+    settings = mkOption {
+      default = {};
+      description = "Server settings, refer to (the documentation)[https://actualbudget.org/docs/config/] for available options.";
+      type = types.submodule {
+        freeformType = formatType.type;
 
-    dataDir = lib.mkOption {
-      type = lib.types.str;
-      default = "/var/lib/actual-server";
-      description = "Directory for Actual Server data";
-    };
+        options = {
+          hostname = mkOption {
+            type = types.str;
+            description = "The address to listen on";
+            default = "::";
+          };
 
-    httpsKey = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
-      default = null;
-      description = "Path to HTTPS key file";
-    };
+          port = mkOption {
+            type = types.port;
+            description = "The port to listen on";
+            default = 3000;
+          };
+        };
 
-    httpsCert = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
-      default = null;
-      description = "Path to HTTPS certificate file";
-    };
-
-    upload = {
-      fileSyncSizeLimitMB = lib.mkOption {
-        type = lib.types.nullOr lib.types.int;
-        default = null;
-        description = "File size limit in MB for synchronized files";
-      };
-
-      syncEncryptedFileSizeLimitMB = lib.mkOption {
-        type = lib.types.nullOr lib.types.int;
-        default = null;
-        description = "File size limit in MB for synchronized encrypted files";
-      };
-
-      fileSizeLimitMB = lib.mkOption {
-        type = lib.types.nullOr lib.types.int;
-        default = null;
-        description = "File size limit in MB for file uploads";
-      };
-    };
-  };
-
-  config = lib.mkIf cfg.enable {
-    virtualisation = {
-      podman.enable = true;
-      oci-containers.backend = "podman";
-      oci-containers.containers.actual-server = {
-        inherit (cfg) image;
-        ports = ["${toString cfg.port}:5006"];
-        volumes = [
-          "${cfg.dataDir}:/data"
-        ];
-        environment = lib.filterAttrs (_n: v: v != null) {
-          ACTUAL_PORT = toString cfg.port;
-          ACTUAL_HTTPS_KEY = cfg.httpsKey;
-          ACTUAL_HTTPS_CERT = cfg.httpsCert;
-          ACTUAL_UPLOAD_FILE_SYNC_SIZE_LIMIT_MB = toString (cfg.upload.fileSyncSizeLimitMB or "");
-          ACTUAL_UPLOAD_SYNC_ENCRYPTED_FILE_SYNC_SIZE_LIMIT_MB = toString (cfg.upload.syncEncryptedFileSizeLimitMB or "");
-          ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB = toString (cfg.upload.fileSizeLimitMB or "");
+        config = {
+          serverFiles = mkDefault "${dataDir}/server-files";
+          userFiles = mkDefault "${dataDir}/user-files";
+          dataDir = mkDefault dataDir;
         };
       };
     };
+  };
 
-    systemd.services.podman-actual-server = {
-      description = "Actual Server Container";
+  config = mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [cfg.settings.port];
+
+    systemd.services.actual = {
+      description = "Actual server, a local-first personal finance app";
       after = ["network.target"];
       wantedBy = ["multi-user.target"];
+      environment.ACTUAL_CONFIG_PATH = configFile;
       serviceConfig = {
-        Restart = "unless-stopped";
+        ExecStart = getExe cfg.package;
+        DynamicUser = true;
+        User = "actual";
+        Group = "actual";
+        StateDirectory = "actual";
+        WorkingDirectory = dataDir;
+        LimitNOFILE = "1048576";
+        PrivateTmp = true;
+        PrivateDevices = true;
+        StateDirectoryMode = "0700";
+        Restart = "always";
+
+        # Hardening
+        CapabilityBoundingSet = "";
+        LockPersonality = true;
+        #MemoryDenyWriteExecute = true; # Leads to coredump because V8 does JIT
+        PrivateUsers = true;
+        ProtectClock = true;
+        ProtectControlGroups = true;
+        ProtectHome = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectProc = "invisible";
+        ProcSubset = "pid";
+        ProtectSystem = "strict";
+        RestrictAddressFamilies = [
+          "AF_INET"
+          "AF_INET6"
+          "AF_NETLINK"
+        ];
+        RestrictNamespaces = true;
+        RestrictRealtime = true;
+        SystemCallArchitectures = "native";
+        SystemCallFilter = [
+          "@system-service"
+          "@pkey"
+        ];
+        UMask = "0077";
       };
     };
-
-    # Ensure the data directory exists
-    system.activationScripts.actual-server-data-dir = ''
-      mkdir -p ${cfg.dataDir}
-    '';
   };
+
+  meta.maintainers = [
+    lib.maintainers.oddlama
+    lib.maintainers.patrickdag
+  ];
 }
