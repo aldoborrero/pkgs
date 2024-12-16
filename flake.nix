@@ -42,10 +42,6 @@
       url = "github:aldoborrero/lib-extras/v1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    devour-flake = {
-      url = "github:srid/devour-flake";
-      flake = false;
-    };
     flake-compat.url = "github:nix-community/flake-compat";
   };
 
@@ -167,24 +163,6 @@
             statix.priority = 2;
             alejandra.priority = 3;
             mdformat.command = lib.mkDefault self'.packages.mdformat;
-          };
-        };
-
-        # checks
-        checks = {
-          nix-build-all = pkgs.writeShellApplication {
-            name = "nix-build-all";
-            runtimeInputs = [
-              pkgs.nix
-              pkgs.devour-flake
-            ];
-            text = ''
-              # Make sure that flake.lock is sync
-              nix flake lock --no-update-lock-file
-
-              # Do a full nix build (all outputs)
-              devour-flake . "$@"
-            '';
           };
         };
       };
