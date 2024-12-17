@@ -15,13 +15,13 @@ in {
     user = mkOption {
       type = types.str;
       default = "digger";
-      description = "User account under which Digger runs.";
+      description = "User account under which Digger backend runs.";
     };
 
     group = mkOption {
       type = types.str;
       default = "digger";
-      description = "Group under which Digger runs.";
+      description = "Group under which Digger backend runs.";
     };
 
     settings = mkOption {
@@ -42,7 +42,7 @@ in {
     };
 
     credentialsFile = mkOption {
-      type = types.path;
+      type = types.nullOr types.path;
       description = ''
         Path to file containing sensitive credentials.
         This file should contain environment variables with secrets.
@@ -81,48 +81,57 @@ in {
       allowedTCPPorts = [cfg.port];
     };
 
-    systemd.services.digger-server = {
+    systemd.services.digger-backend = {
       description = "Digger";
       after = ["network.target" "postgresql.service"];
       wantedBy = ["multi-user.target"];
 
       environment =
         {
-          PORT = cfg.port;
+          PORT = toString cfg.port;
         }
-        // cfg.settings;
+        // lib.mapAttrs (_: toString) cfg.settings;
 
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = getExe cfg.package;
-        DynamicUser = true;
-        User = cfg.user;
-        Group = cfg.group;
-        Restart = "on-failure";
-        WorkingDirectory = cfg.stateDir;
+      serviceConfig = mkMerge [
+        {
+          Type = "simple";
+          ExecStart = getExe cfg.package;
+          DynamicUser = true;
+          User = cfg.user;
+          Group = cfg.group;
+          Restart = "on-failure";
 
-        EnvironmentFile = optional (cfg.environmentFile != null) cfg.credentialsFile;
+          # Credentials
+          EnvironmentFile = optional (cfg.credentialsFile != null) cfg.credentialsFile;
 
-        # Hardening options
-        CapabilityBoundingSet = "";
-        NoNewPrivileges = true;
-        PrivateDevices = true;
-        PrivateTmp = true;
-        PrivateUsers = false; # Disabled for PostgreSQL authentication
-        ProtectSystem = "full";
-        RemoveIPC = false; # Disabled for PostgreSQL communication
-        RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
-        UMask = "0077";
+          # Hardening options
+          CapabilityBoundingSet = "";
+          NoNewPrivileges = true;
+          PrivateDevices = true;
+          PrivateTmp = true;
+          PrivateUsers = false; # Disabled for PostgreSQL authentication
+          ProtectSystem = "full";
+          RemoveIPC = false; # Disabled for PostgreSQL communication
+          RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
+          UMask = "0077";
 
-        # Allow writing to state directory
-        ReadWritePaths =
-          [cfg.stateDir]
-          ++ optional (cfg.postgresql.socketPath != null) cfg.postgresql.socketPath;
-      };
+          # Allow writing to state directory
+          ReadWritePaths =
+            [cfg.stateDir]
+            ++ optional (cfg.postgresql.socketPath != null) cfg.postgresql.socketPath;
+        }
+        (mkIf (cfg.stateDir == "/var/lib/digger") {
+          StateDirectory = "digger";
+          WorkingDirectory = "%S/digger";
+        })
+        (mkIf (cfg.stateDir != "/var/lib/digger") {
+          WorkingDirectory = cfg.stateDir;
+        })
+      ];
     };
 
     users.users = mkIf (cfg.user == "digger") {
-      ersatztv = {
+      digger = {
         inherit (cfg) group;
         isSystemUser = true;
       };
