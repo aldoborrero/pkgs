@@ -31,14 +31,13 @@ buildGoModule rec {
   subPackages = ["backend"];
 
   postInstall = ''
-    mkdir -p $out/share/digger-backend
-    cp -r $src/backend/templates $out/share/digger-backend/
-    cp -r $src/backend/migrations $out/share/digger-backend/
-    cd $out/bin
-    ln -s ../share/digger-backend/templates templates
-    ln -s ../share/digger-backend/migrations migrations
-    mv backend digger-backend
-'';
+    mv $out/bin/backend $out/bin/digger-backend
+
+    # copy migrations
+    mkdir -p $out/share/
+    cp -r $src/backend/migrations $out/share/
+    cp -r $src/backend/templates $out/share/
+  '';
 
   meta = with lib; {
     description = "Backend service for Digger, an open source IaC orchestration tool";

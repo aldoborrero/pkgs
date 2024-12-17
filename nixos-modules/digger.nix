@@ -104,6 +104,12 @@ in {
           # Credentials
           EnvironmentFile = optional (cfg.credentialsFile != null) cfg.credentialsFile;
 
+          # Bind paths for templates and migrations
+          BindPaths = [
+            "${cfg.package}/share/templates:${cfg.stateDir}/templates"
+            "${cfg.package}/share/migrations:${cfg.stateDir}/migrations"
+          ];
+
           # Hardening options
           CapabilityBoundingSet = "";
           NoNewPrivileges = true;
