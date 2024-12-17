@@ -5,21 +5,21 @@
   ...
 }:
 with lib; let
-  cfg = config.services.digger-backend;
+  cfg = config.services.digger;
 in {
-  options.services.digger-backend = {
+  options.services.digger = {
     enable = mkEnableOption "Digger";
 
     package = mkPackageOption pkgs "digger-backend" {};
 
     user = mkOption {
-      type = str;
+      type = types.str;
       default = "digger";
       description = "User account under which Digger runs.";
     };
 
     group = mkOption {
-      type = str;
+      type = types.str;
       default = "digger";
       description = "Group under which Digger runs.";
     };
