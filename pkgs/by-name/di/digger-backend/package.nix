@@ -34,8 +34,11 @@ buildGoModule rec {
     mkdir -p $out/share/digger-backend
     cp -r $src/backend/templates $out/share/digger-backend/
     cp -r $src/backend/migrations $out/share/digger-backend/
-    mv $out/bin/backend $out/bin/digger-backend
-  '';
+    cd $out/bin
+    ln -s ../share/digger-backend/templates templates
+    ln -s ../share/digger-backend/migrations migrations
+    mv backend digger-backend
+'';
 
   meta = with lib; {
     description = "Backend service for Digger, an open source IaC orchestration tool";
