@@ -33,7 +33,6 @@ in {
           HOSTNAME = "digger.example.com";
           HTTP_BASIC_AUTH = "1";
           HTTP_BASIC_AUTH_USERNAME = "myorg";
-          ALLOW_DIRTY = "false";
           GITHUB_APP_ID = "123";
           GITHUB_APP_CLIENT_ID = "abc";
         }
@@ -70,8 +69,43 @@ in {
     postgresql = {
       socketPath = mkOption {
         type = types.nullOr types.path;
-        default = null;
+        default = "/run/postgresql";
         description = "Path to PostgreSQL unix socket if using socket authentication";
+      };
+    };
+
+    migrations = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Whether to run database migrations on service start";
+      };
+
+      package = mkPackageOption pkgs "atlas" {};
+
+      allowDirty = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Whether to allow dirty database migrations";
+      };
+
+      dir = mkOption {
+        type = types.str;
+        default = "file://${cfg.stateDir}/migrations";
+        description = ''
+          Directory containing migration files to use with atlas --dir flag.
+          Uses URL format as required by atlas.
+        '';
+      };
+
+      extraArgs = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        example = ["--tx-mode" "none"];
+        description = ''
+          Extra arguments to pass to atlas migrate apply command.
+          Arguments are added after the URL and allow-dirty flag.
+        '';
       };
     };
   };
@@ -89,8 +123,21 @@ in {
       environment =
         {
           PORT = toString cfg.port;
+          ALLOW_DIRTY =
+            if cfg.migrations.allowDirty
+            then "true"
+            else "false";
         }
         // lib.mapAttrs (_: toString) cfg.settings;
+
+      preStart = mkIf cfg.migrations.enable ''
+        cd ${cfg.stateDir}
+        ${lib.getExe cfg.migrations.package} migrate apply \
+          --url "$DATABASE_URL" \
+          --dir "${cfg.migrations.dir}" \
+          ${lib.optionalString cfg.migrations.allowDirty "--allow-dirty"} \
+          ${lib.escapeShellArgs cfg.migrations.extraArgs}
+      '';
 
       serviceConfig = mkMerge [
         {
