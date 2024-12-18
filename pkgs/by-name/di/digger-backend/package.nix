@@ -2,7 +2,6 @@
   lib,
   buildGoModule,
   fetchFromGitHub,
-  atlas,
 }:
 buildGoModule rec {
   pname = "digger-backend";
@@ -19,8 +18,6 @@ buildGoModule rec {
   proxyVendor = true;
 
   CGO_ENABLED = 0;
-
-  nativeBuildInputs = [atlas];
 
   ldflags = [
     "-s"
