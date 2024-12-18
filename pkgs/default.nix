@@ -15,6 +15,16 @@
         builtins.listToAttrs
       ];
 
+    apps =
+      lib.mapAttrs (_name: package: {
+        type = "app";
+        program = lib.getExe package;
+      }) (lib.filterAttrs (
+          _name: package:
+            lib.isDerivation package && package ? meta.mainProgram
+        )
+        self'.packages);
+
     overlayAttrs = self'.packages;
   };
 }
