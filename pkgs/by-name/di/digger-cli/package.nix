@@ -1,6 +1,7 @@
 {
   buildGoModule,
   fetchFromGitHub,
+  installShellFiles,
   lib,
 }:
 buildGoModule rec {
@@ -26,6 +27,15 @@ buildGoModule rec {
   ];
 
   subPackages = ["cli/cmd/digger"];
+
+  nativeBuildInputs = [installShellFiles];
+
+  postInstall = ''
+    installShellCompletion --cmd digger \
+      --bash <($out/bin/digger completion bash) \
+      --fish <($out/bin/digger completion fish) \
+      --zsh <($out/bin/digger completion zsh)
+  '';
 
   meta = with lib; {
     description = "Digger is an open source IaC orchestration tool. Digger allows you to run IaC in your existing CI pipeline";
