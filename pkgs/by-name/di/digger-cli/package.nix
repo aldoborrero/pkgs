@@ -5,13 +5,13 @@
 }:
 buildGoModule rec {
   pname = "digger-cli";
-  version = "0.6.75";
+  version = "0.6.79";
 
   src = fetchFromGitHub {
     owner = "diggerhq";
     repo = "digger";
     rev = "v${version}";
-    hash = "sha256-NPAdztX4SYNk7xLuiIxzkK/0EFEJ8s48f35PabhqaBs=";
+    hash = "sha256-/R52dwgKqpU9ffka5bz9xb7NyoCIu2/AgiWG0TT8nd0=";
   };
 
   vendorHash = "sha256-qcItUM2wQ4fgFDMGkyymxQugGaRQvn7rrmSzaLtL76Q=";
