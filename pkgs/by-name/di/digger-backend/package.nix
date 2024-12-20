@@ -43,6 +43,10 @@ in
       hash = "sha256-/R52dwgKqpU9ffka5bz9xb7NyoCIu2/AgiWG0TT8nd0=";
     };
 
+    patches = [
+      ./fix-migrations-comment.patch
+    ];
+
     vendorHash = "sha256-qcItUM2wQ4fgFDMGkyymxQugGaRQvn7rrmSzaLtL76Q=";
     proxyVendor = true;
 
@@ -61,8 +65,8 @@ in
 
       # copy migrations
       mkdir -p $out/share/
-      cp -r $src/backend/migrations $out/share/
-      cp -r $src/backend/templates $out/share/
+      cp -r backend/migrations $out/share/
+      cp -r backend/templates $out/share/
     '';
 
     passthru.atlas = patchedAtlas;
