@@ -1,10 +1,11 @@
 # Taken from https://github.com/NixOS/nixpkgs/pull/348655/files#diff-8101eeaf792a00b3b797367d5b1a5b21d8e6d15bebb59fab60eaa5aa5bd31a98
 {
-  lib,
-  fetchFromGitHub,
-  dotnetCorePackages,
   buildDotnetModule,
+  dotnetCorePackages,
+  fetchFromGitHub,
   ffmpeg,
+  lib,
+  libva-utils,
   which,
 }:
 buildDotnetModule rec {
@@ -36,6 +37,7 @@ buildDotnetModule rec {
     ":"
     "${lib.makeBinPath [
       ffmpeg
+      libva-utils
       which
     ]}"
   ];
